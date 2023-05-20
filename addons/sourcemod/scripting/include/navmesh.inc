@@ -720,7 +720,6 @@ methodmap CNavLadder
 	}
 }
 
-
 // SpotEncounter
 
 native CNavArea NavSpotEncounter_GetFrom(int spotEncounterIndex);
@@ -770,7 +769,6 @@ methodmap SpotEncounter
 		NavSpotEncounter_GetSpots(this.Index, buffer);
 	}
 }
-
 
 // SpotOrder
 
@@ -822,7 +820,7 @@ public int NavMeshShortestPathCost(CNavArea area, CNavArea from, CNavLadder ladd
 			area.GetCenter(flAreaCenter);
 			from.GetCenter(flFromAreaCenter);
 			
-			iDist = RoundFloat(GetVectorDistance(flAreaCenter, flFromAreaCenter));
+			iDist = RoundFloat(GetVectorDistance(flAreaCenter, flFromAreaCenter, true));
 		}
 		
 		int iCost = iDist + from.CostSoFar;
@@ -932,7 +930,6 @@ public bool TraceFilterWalkableEntities(int entity, int mask, any iFlags)
 {
 	return !IsEntityWalkable(entity, iFlags);
 }
-
 
 public SharedPlugin __pl_navmesh = 
 {
