@@ -532,7 +532,7 @@ ArrayStack NavMeshCollectSurroundingAreas(int iStartAreaIndex, float flTravelDis
 						NavMeshAreaGetCenter(iAreaIndex, flAreaCenter);
 						NavMeshAreaGetCenter(iAdjacentAreaIndex, flAdjacentAreaCenter);
 						
-						iDistAlong += RoundToFloor(GetVectorDistance(flAdjacentAreaCenter, flAreaCenter));
+						iDistAlong += RoundToFloor(GetVectorDistance(flAdjacentAreaCenter, flAreaCenter, true));
 						g_hNavMeshAreas.Set(iAdjacentAreaIndex, iDistAlong, NavMeshArea_CostSoFar);
 						NavMeshAreaAddToOpenList(iAdjacentAreaIndex);
 					}
@@ -585,7 +585,7 @@ bool NavMeshBuildPath(int iStartAreaIndex,
 	float flStartAreaCenter[3];
 	NavMeshAreaGetCenter(iStartAreaIndex, flStartAreaCenter);
 	
-	int iStartTotalCost = RoundFloat(GetVectorDistance(flStartAreaCenter, flGoalPos));
+	int iStartTotalCost = RoundFloat(GetVectorDistance(flStartAreaCenter, flGoalPos, true));
 	g_hNavMeshAreas.Set(iStartAreaIndex, iStartTotalCost, NavMeshArea_TotalCost);
 	
 	int iInitCost = 0;
@@ -769,7 +769,7 @@ bool NavMeshBuildPath(int iStartAreaIndex,
 				float flAreaCenter[3];
 				NavMeshAreaGetCenter(iAreaIndex, flAreaCenter);
 				
-				float flDeltaLength = GetVectorDistance(flNewAreaCenter, flAreaCenter);
+				float flDeltaLength = GetVectorDistance(flNewAreaCenter, flAreaCenter, true);
 				float flNewLengthSoFar = view_as<float>(g_hNavMeshAreas.Get(iAreaIndex, NavMeshArea_PathLengthSoFar)) + flDeltaLength;
 				if (flNewLengthSoFar > flMaxPathLength)
 				{
@@ -786,7 +786,7 @@ bool NavMeshBuildPath(int iStartAreaIndex,
 			}
 			else
 			{
-				int iNewCostRemaining = RoundFloat(GetVectorDistance(flNewAreaCenter, flGoalPos));
+				int iNewCostRemaining = RoundFloat(GetVectorDistance(flNewAreaCenter, flGoalPos, true));
 				
 				if (iClosestAreaIndex != -1 && iNewCostRemaining < iClosestAreaDist)
 				{
@@ -2522,7 +2522,7 @@ stock int NavMeshGetNearestArea(float flPos[3], bool bAnyZ=false, float flMaxDis
 						float flAreaPos[3];
 						NavMeshAreaGetClosestPointOnArea(iAreaIndex, flSource, flAreaPos);
 						
-						float flDistSq = Pow(GetVectorDistance(flPos, flAreaPos), 2.0);
+						float flDistSq = GetVectorDistance(flPos, flAreaPos, true);
 						
 						if (flDistSq >= flClosestDistSq) continue;
 						
